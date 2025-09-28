@@ -1,0 +1,76 @@
+<form [formGroup]="form" (ngSubmit)="onSubmit()" class="form">
+  <h1 class="text-center h1 font-bold">Create an Account</h1>
+  <p class="text-center text-gray-500">
+    Please fill in the details to create your account.
+  </p>
+  <div class="form__group">
+    <div class="grid grid-cols-2 gap-4">
+      <form-field
+        [control]="firstNameControl"
+        label="First Name"
+        placeholder="Enter First Name"
+      ></form-field>
+
+      <form-field
+        [control]="lastNameControl"
+        label="Last Name"
+        placeholder="Enter Last Name"
+      ></form-field>
+    </div>
+
+    <form-field
+      [control]="companyNameControl"
+      label="Company Name"
+      placeholder="Enter Company Name"
+    ></form-field>
+
+    <form-field
+      [control]="companyNumberControl"
+      label="Company Number"
+      placeholder="Enter Company Number"
+    ></form-field>
+
+    <form-field
+      [control]="emailControl"
+      label="Email"
+      placeholder="Enter Email"
+      type="email"
+    ></form-field>
+
+    <form-field
+      [control]="passwordControl"
+      label="Password"
+      placeholder="Enter Password"
+      type="password"
+    ></form-field>
+
+    <form-field
+      [control]="confirmPasswordControl"
+      label="Confirm Password"
+      placeholder="Confirm Password"
+      type="password"
+    ></form-field>
+    @if (supabaseError) {
+      <div class="bg-red-100 text-red-700 p-3 rounded mb-4 border border-red-300">
+        {{ supabaseError }}
+      </div>
+    }
+    <button
+      class="btn btn-block btn-primary mt-3"
+      type="submit"
+      [disabled]="loading"
+    >
+      @if (loading) {
+        <span class="animate-pulse">Registering...</span>
+      } @else {
+        Register
+      }
+    </button>
+
+    <div class="mt-4 text-center">
+      <a routerLink="/auth/login" class="text-amber-900 hover:cursor-pointer"
+        >Already have an account? Login</a
+      >
+    </div>
+  </div>
+</form>

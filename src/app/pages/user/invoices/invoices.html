@@ -1,0 +1,64 @@
+<div class="flex justify-between items-center">
+  <h1 class="text-3xl font-bold mb-4">Invoices</h1>
+  <div class="flex justify-end mb-4">
+    <label for="invoice-modal" class="btn btn-primary btn-sm">+ Add Invoice</label>
+  </div>
+</div>
+<div class="flex gap-4 mb-4">
+  <input type="text" class="input input-bordered input-sm w-48" placeholder="Filter by client"
+         [(ngModel)]="filterClient" (input)="applyFilters()" />
+
+  <select class="select select-bordered select-sm w-48" [(ngModel)]="filterCategory" (change)="applyFilters()">
+    <option value="">All Categories</option>
+    @for (cat of categories; track $index) {
+      <option [value]="cat.name">{{ cat.name }}</option>
+    }
+  </select>
+</div>
+<div class="overflow-x-auto mt-6">
+  <table class="table table-zebra w-full table-compact bg-neutral-100 border border-gray-200">
+    <thead class="bg-gray-200">
+    <tr>
+      <th>#</th>
+      <th (click)="sortBy('client_name')" class="cursor-pointer">Client</th>
+      <th>Comment</th>
+      <th (click)="sortBy('amount')" class="cursor-pointer">Amount</th>
+      <th (click)="sortBy('created_at')" class="cursor-pointer">Due Date</th>
+      <th>Type</th>
+      <th (click)="sortBy('categories.name')" class="cursor-pointer">Category</th>
+    </tr>
+    </thead>
+    <tbody>
+      @for (invoice of paginatedInvoices; let i = $index; track invoice.id) {
+        <tr class="hover:bg-gray-100 hover:cursor-pointer" [routerLink]="'/user/invoice/' + invoice.id">
+          <td>{{ (currentPage - 1) * pageSize + i + 1 }}</td>
+          <td>{{ invoice.client_name }}</td>
+          <td>{{ invoice.comment }}</td>
+          <td>{{ invoice.amount | currencyType }}</td>
+          <td>{{ invoice.created_at | timeFormat }}</td>
+          <td>
+            <span class="badge badge-soft {{ invoice.is_incoming ? 'badge-success' : 'badge-error' }}">
+              {{ invoice.is_incoming | invoiceType }}
+            </span>
+          </td>
+          <td>{{ invoice.categories?.name ?? '—' }}</td>
+        </tr>
+      } @empty {
+        <tr>
+          <td colspan="7" class="text-center text-sm text-gray-500">No invoices found.</td>
+        </tr>
+      }
+    </tbody>
+  </table>
+</div>
+
+<!-- Pagination Controls -->
+<div class="flex justify-center items-center mt-4 gap-2">
+  <button class="btn btn-sm" (click)="goToPage(currentPage - 1)" [disabled]="currentPage === 1">Previous</button>
+  <span class="text-sm font-medium">Page {{ currentPage }} of {{ totalPages }}</span>
+  <button class="btn btn-sm" (click)="goToPage(currentPage + 1)" [disabled]="currentPage === totalPages">Next</button>
+</div>
+
+<app-invoice-modal
+  [categories]="categories"
+  (invoiceCreated)="fetchInvoices()"/>

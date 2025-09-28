@@ -1,0 +1,25 @@
+<h1 class="text-3xl font-bold mb-4">Welcome to Accountex</h1>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+  <div class="card bg-base-100 shadow">
+    <div class="card-body">
+      <h2 class="card-title">Recent Activity</h2>
+      <p>Here’s where your latest transactions or updates will appear.</p>
+    </div>
+  </div>
+  <div class="card bg-base-100 shadow">
+    <div class="card-body">
+      <h2 class="card-title">Quick Actions</h2>
+      <label for="invoice-modal" class="btn btn-primary">Add Invoice</label>
+    </div>
+  </div>
+</div>
+
+<div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+<app-profit-chart/>
+<app-bar-chart/>
+</div>
+
+<app-invoice-modal
+  [categories]="categories"
+  (invoiceCreated)="fetchInvoices()">
+</app-invoice-modal>

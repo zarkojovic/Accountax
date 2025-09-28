@@ -1,0 +1,18 @@
+<div style="display: block;" class="chart" [className]="'card bg-base-100 shadow p-4 mt-4'">
+  <h1 class="text-lg font-bold mb-4">Monthly Revenue</h1>
+  <div class="flex justify-between items-center mb-4">
+    <div class="flex gap-2">
+      <button class="btn btn-sm" (click)="filterByMonths(6)">Last 6 Months</button>
+      <button class="btn btn-sm" (click)="filterByMonths(12)">Last 12 Months</button>
+      <button class="btn btn-sm" (click)="filterByMonths()">All Time</button>
+    </div>
+    <div>
+      <label class="label cursor-pointer">
+        <span class="label-text mr-2">Sort by Profit</span>
+        <input type="checkbox" class="toggle toggle-sm" [(ngModel)]="sortByProfit" (change)="fetchInvoices()" />
+      </label>
+    </div>
+  </div>
+  <canvas baseChart [type]="'bar'" [data]="data" [options]="options">
+  </canvas>
+</div>

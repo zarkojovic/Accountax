@@ -1,0 +1,26 @@
+<div class="carousel w-full  min-h-[85vh]">
+  @for(item of carouselItems; track item.title; let i = $index){
+    <div id="slide{{i}}" class="carousel-item relative w-full bg-cover bg-center"
+         style="background-image: url({{item.image}});">
+      <div class="absolute inset-0 bg-black opacity-35 z-10"></div>
+      <div class="absolute left-5 right-5 top-1/2 flex -translate-y-1/2 transform justify-between z-20">
+        <a href="#slide{{i == 0 ? carouselItems.length : i-1}}" class="btn btn-circle">❮</a>
+        <div class="flex flex-col items-center justify-center text-center max-w-2xl mx-auto">
+          <h1 class="mb-5 text-5xl text-white text-center font-bold">{{
+            item.title
+            }}</h1>
+          <p class="mb-5 text-white text-center">
+            {{ item.description }}
+          </p>
+          <button class="btn btn-secondary btn-soft" (click)="navigate(item.button.link)">
+            {{item.button.text}}
+          </button>
+        </div>
+        <a href="#slide{{i == carouselItems.length - 1 ? 0 : i+1}}" class="btn btn-circle">❯</a>
+      </div>
+    </div>
+  }
+</div>
+<div *ngIf="session.user$ | async as user">
+  Welcome, {{ user.first_name }} (Role: {{ user.role_id }})
+</div>

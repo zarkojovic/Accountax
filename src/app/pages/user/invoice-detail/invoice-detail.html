@@ -1,0 +1,17 @@
+<p class="text-end">
+  <button class="btn btn-active mb-4" (click)="goBack()">Go back</button>
+</p>
+
+<div *ngIf="notFound" class="text-center mt-10 text-red-500">
+  <h2 class="text-xl font-bold">404 - Invoice Not Found</h2>
+  <p>This invoice either doesn’t exist or you don’t have access to it.</p>
+</div>
+
+<div *ngIf="invoice">
+  <h2 class="text-xl font-bold mb-4">Invoice #{{ invoice.id }}</h2>
+  <p><strong>Client:</strong> {{ invoice.client_name }}</p>
+  <p><strong>Amount:</strong> €{{ invoice.amount }}</p>
+  <p><strong>Type:</strong> {{ invoice.is_incoming ? 'Incoming' : 'Outgoing' }}</p>
+  <p><strong>Category:</strong> {{ invoice.categories?.name }}</p>
+  <p><strong>Comment:</strong> {{ invoice.comment ?? '—' }}</p>
+</div>

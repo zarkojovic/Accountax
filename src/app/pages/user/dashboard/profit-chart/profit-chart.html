@@ -1,0 +1,13 @@
+<div class="card bg-base-100 shadow p-4 mt-4">
+  <h2 class="text-lg font-bold mb-4">Monthly Profit Overview</h2>
+  <div class="flex justify-center gap-2 mb-4">
+    <button class="btn btn-sm" (click)="loadProfitData(6)">Last 6 Months</button>
+    <button class="btn btn-sm" (click)="loadProfitData(12)">Last 12 Months</button>
+    <button class="btn btn-sm" (click)="loadProfitData()">All Time</button>
+  </div>
+  <canvas baseChart
+          [type]="'line'"
+          [data]="data"
+          [options]="options">
+  </canvas>
+</div>

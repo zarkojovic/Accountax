@@ -1,0 +1,60 @@
+<input type="checkbox" id="invoice-modal" class="modal-toggle"/>
+<div class="modal">
+  <div class="modal-box">
+    <h3 class="font-bold text-lg">Create new Invoice</h3>
+    <p class="pt-4">Add new Invoice that you paid or received from your clients.</p>
+    <form>
+      <form-field type="text" [control]="commentControl" label="Comment" placeholder="Enter comment"></form-field>
+      <label class="label">
+        <span class="label-text text-xs text-">Client Name</span>
+      </label>
+      <input
+        type="text"
+        class="input input-bordered w-full"
+        [formControl]="clientNameControl"
+        (input)="filterClients()"
+        placeholder="Type or select client"
+      />
+      <ul *ngIf="filteredClients.length" class="bg-base-100 border rounded mt-1 shadow max-h-40 overflow-y-auto">
+        <li
+          *ngFor="let name of filteredClients"
+          class="px-4 py-2 hover:bg-amber-100 cursor-pointer"
+          (click)="selectClient(name)">
+          {{ name }}
+        </li>
+      </ul>
+
+      <!--      </form-field>-->
+
+      <form-field type="date" [control]="dueDateControl" label="Invoice Date" placeholder="Type here"></form-field>
+      <form-field type="number" [control]="amountControl" label="Amount" placeholder="Type here"></form-field>
+
+      <span class="fieldset-legend text-xs">Type of Invoice:</span>
+      <div>
+        <input type="radio" [formControl]="incomingControl" [value]="true" id="incoming"/>
+        <label for="incoming" class="ms-2">Incoming</label>
+      </div>
+      <div>
+        <input type="radio" [formControl]="incomingControl" [value]="false" id="outgoing"/>
+        <label class="ms-2" for="outgoing">Outgoing</label>
+      </div>
+
+      <div class="form-control w-full mt-4">
+        <span class="text-xs font-bold block">Category</span>
+        <select class="select select-bordered w-full" [formControl]="categoryControl">
+          <option selected value="0">Select a category</option>
+          @for (cat of categories; track cat.id) {
+            <option [value]="cat.id">{{ cat.name }}</option>
+          }
+        </select>
+      </div>
+
+      <div class="form-control w-full mt-4">
+        <button class="btn btn-primary w-full" type="button" (click)="createInvoice()">Create Invoice</button>
+      </div>
+    </form>
+    <div class="modal-action">
+      <label for="invoice-modal" class="btn">Close</label>
+    </div>
+  </div>
+</div>
