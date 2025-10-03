@@ -67,7 +67,7 @@ export class InvoiceModal {
       this.clientSuggestions = Array.from(new Set(names));
     }
   }
-
+  showToast = false;
   async createInvoice(): Promise<void> {
     if (this.form.invalid) {
       this.form.markAllAsTouched();
@@ -98,5 +98,7 @@ export class InvoiceModal {
     document.getElementById('invoice-modal')?.click();
     this.invoiceService.triggerRefresh();
     this.invoiceCreated.emit();
+    this.showToast = true;
+    setTimeout(() => this.showToast = false, 3000);
   }
 }

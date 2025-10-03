@@ -6,6 +6,8 @@ import {CurrencyTypePipe} from '@core/pipes/currency-type.pipe';
 import {TimeFormatPipe} from '@core/pipes/time-format.pipe';
 import {InvoiceModal} from '@shared/invoice-modal/invoice-modal';
 import {FormsModule} from '@angular/forms';
+import {NgIf} from '@angular/common';
+import {InvoiceService} from '@core/services/invoice.service';
 
 @Component({
   selector: 'app-invoices',
@@ -15,7 +17,8 @@ import {FormsModule} from '@angular/forms';
     TimeFormatPipe,
     InvoiceTypePipe,
     InvoiceModal,
-    FormsModule
+    FormsModule,
+    NgIf
   ],
   standalone: true,
   templateUrl: './invoices.html',
@@ -32,15 +35,27 @@ export class Invoices implements OnInit {
 
   filterClient: string = '';
   filterCategory: string = '';
-
+  loading = true;
   currentPage = 1;
   pageSize = 10;
   totalPages = 1;
 
+
+  constructor(private invoiceService: InvoiceService) {
+    this.invoiceService.refresh$.subscribe(async () => {
+      this.loading = true;
+      await this.fetchInvoices();
+      await this.applyFilters();
+      this.loading = false;
+    });
+  }
+
   async ngOnInit(): Promise<void> {
+    this.loading = true;
     await this.fetchCategories();
     await this.fetchInvoices();
     await this.applyFilters();
+    this.loading = false;
   }
 
   async fetchCategories(): Promise<void> {
@@ -61,6 +76,29 @@ export class Invoices implements OnInit {
     }
   }
 
+  toastMessage = '';
+  showToast = false;
+
+  async deleteInvoice(id: number): Promise<void> {
+    const confirmed = confirm('Are you sure you want to delete this invoice?');
+    if (!confirmed) return;
+
+    const { error } = await supabase.from('invoices').delete().eq('id', id);
+    if (error) {
+      console.error('Failed to delete invoice:', error.message);
+      this.toastMessage = 'Failed to delete invoice.';
+      this.showToast = true;
+      setTimeout(() => this.showToast = false, 3000);
+      return;
+    }
+
+    this.toastMessage = 'Invoice deleted successfully!';
+    this.showToast = true;
+    setTimeout(() => this.showToast = false, 3000);
+
+    await this.fetchInvoices();
+    await this.applyFilters();
+  }
   updatePaginatedInvoices(): void {
     const start = (this.currentPage - 1) * this.pageSize;
     const end = start + this.pageSize;

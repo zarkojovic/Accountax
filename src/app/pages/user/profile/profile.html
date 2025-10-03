@@ -1,1 +1,80 @@
-<p>profile works!</p>
+
+
+<h1 class="text-2xl font-bold mb-6">Your Profile</h1>
+
+<img *ngIf="imageUrl" [src]="imageUrl" alt="Avatar" class="w-32 h-32 rounded-full mb-4" />
+
+
+<img *ngIf="!imageUrl" src="/avatar-icon.png" alt="Profile Picture" class="w-32 h-32 rounded-full mb-4" />
+
+<div *ngIf="saving" class="flex justify-center items-center h-40">
+  <span class="loading loading-spinner loading-lg text-primary"></span>
+</div>
+<!-- Read-only view -->
+<div  *ngIf="!editMode && !saving && userData" class="space-y-4">
+
+  <div>
+    <span class="font-semibold">Full Name:</span>
+    <p>{{ userData.first_name + " " + userData.last_name }}</p>
+  </div>
+  <div>
+    <span class="font-semibold">Email:</span>
+    <p>{{ userData.email }}</p>
+  </div>
+  <div>
+    <span class="font-semibold">Company Name:</span>
+    <p>{{ userData.company_name ?? '—' }}</p>
+  </div>
+  <button class="btn btn-outline btn-sm mt-4" (click)="editMode = true">Edit Profile</button>
+</div>
+
+<!-- Editable form -->
+<form  *ngIf="editMode && !saving" [formGroup]="form" class="space-y-4">
+  <input type="file" (change)="handleFileSelection($event)" accept="image/*" class="file-input file-input-bordered w-full" />
+
+  <div>
+    <label class="label">First Name</label>
+    <input type="text" class="input input-bordered w-full" [formControl]="firstNameControl" />
+    <div *ngIf="firstNameControl.invalid && firstNameControl.touched" class="text-red-500 text-sm">
+      First name must be at least 2 characters.
+    </div>
+  </div>
+
+  <div>
+    <label class="label">Last Name</label>
+    <input type="text" class="input input-bordered w-full" [formControl]="lastNameControl" />
+    <div *ngIf="lastNameControl.invalid && lastNameControl.touched" class="text-red-500 text-sm">
+      Last name must be at least 2 characters.
+    </div>
+  </div>
+
+  <div>
+    <label class="label">Email</label>
+    <input type="email" class="input input-bordered w-full" [formControl]="emailControl" />
+    <div *ngIf="emailControl.invalid && emailControl.touched" class="text-red-500 text-sm">
+      Enter a valid email.
+    </div>
+  </div>
+
+  <div>
+    <label class="label">Company Name</label>
+    <input type="text" class="input input-bordered w-full" [formControl]="companyNameControl" />
+    <div *ngIf="companyNameControl.invalid && companyNameControl.touched" class="text-red-500 text-sm">
+      Company name must be at least 2 characters.
+    </div>
+  </div>
+
+  <div class="flex gap-2 mt-4">
+    <button class="btn btn-primary flex-1" type="button" (click)="updateProfile()">Save Changes</button>
+    <button class="btn btn-ghost flex-1" type="button" (click)="editMode = false">Cancel</button>
+  </div>
+
+  <div *ngIf="success" class="text-green-600 text-sm mt-2">Profile updated successfully!</div>
+</form>
+
+<div *ngIf="loading" class="text-center text-gray-500 mt-10">Loading profile...</div>
+<div *ngIf="showToast" class="toast toast-top toast-end z-50">
+  <div class="alert alert-success shadow-lg">
+    <span>{{ toastMessage }}</span>
+  </div>
+</div>

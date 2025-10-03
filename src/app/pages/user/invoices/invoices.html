@@ -15,6 +15,10 @@
     }
   </select>
 </div>
+<div *ngIf="loading" class="flex justify-center items-center h-64">
+  <span class="loading loading-spinner loading-lg text-amber-600"></span>
+</div>
+<div *ngIf="!loading">
 <div class="overflow-x-auto mt-6">
   <table class="table table-zebra w-full table-compact bg-neutral-100 border border-gray-200">
     <thead class="bg-gray-200">
@@ -26,6 +30,7 @@
       <th (click)="sortBy('created_at')" class="cursor-pointer">Due Date</th>
       <th>Type</th>
       <th (click)="sortBy('categories.name')" class="cursor-pointer">Category</th>
+      <th>Actions</th>
     </tr>
     </thead>
     <tbody>
@@ -42,6 +47,11 @@
             </span>
           </td>
           <td>{{ invoice.categories?.name ?? '—' }}</td>
+          <td>
+            <button class="btn btn-xs btn-error" (click)="deleteInvoice(invoice.id)">
+              Delete
+            </button>
+          </td>
         </tr>
       } @empty {
         <tr>
@@ -51,14 +61,21 @@
     </tbody>
   </table>
 </div>
+  <div *ngIf="showToast" class="toast toast-top toast-end z-50">
+    <div class="alert alert-error shadow-lg">
+      <span>{{ toastMessage }}</span>
+    </div>
+  </div>
 
-<!-- Pagination Controls -->
+
+  <!-- Pagination Controls -->
 <div class="flex justify-center items-center mt-4 gap-2">
   <button class="btn btn-sm" (click)="goToPage(currentPage - 1)" [disabled]="currentPage === 1">Previous</button>
   <span class="text-sm font-medium">Page {{ currentPage }} of {{ totalPages }}</span>
   <button class="btn btn-sm" (click)="goToPage(currentPage + 1)" [disabled]="currentPage === totalPages">Next</button>
 </div>
 
+</div>
 <app-invoice-modal
   [categories]="categories"
   (invoiceCreated)="fetchInvoices()"/>

@@ -10,6 +10,7 @@ import {
 } from 'chart.js';
 import {supabase} from '@features/supabase.client';
 import {BaseChartDirective} from 'ng2-charts';
+import {InvoiceService} from '@core/services/invoice.service';
 
 // Register required components
 Chart.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend, LineController, PointElement, LineElement);
@@ -27,6 +28,12 @@ Chart.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend, L
 export class ProfitChart {
   chartLabels: string[] = [];
   profitData: number[] = [];
+
+  constructor(private invoiceService: InvoiceService) {
+    this.invoiceService.refresh$.subscribe(async () => {
+      await this.loadProfitData(); // default to all time
+    });
+  }
 
   data: {
     datasets: {
@@ -52,6 +59,7 @@ export class ProfitChart {
       }
     }
   };
+
 
   async ngOnInit(): Promise<void> {
     await this.loadProfitData(); // default to all time

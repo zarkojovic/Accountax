@@ -97,7 +97,6 @@ export class BarChartComponent implements OnInit {
       this.fetchInvoices();
       this.updateChart();
     });
-
   }
 
   async ngOnInit(): Promise<void> {
