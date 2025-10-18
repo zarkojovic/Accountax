@@ -1,12 +1,12 @@
 import { Injectable } from '@angular/core';
-import { CanActivate, ActivatedRouteSnapshot, Router } from '@angular/router';
+import {CanActivate, ActivatedRouteSnapshot, Router} from '@angular/router';
 import { SessionService } from '@core/services/session.servies';
 import { Role } from '@core/interfaces/role.interfaces';
 import { firstValueFrom } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class RoleGuard implements CanActivate {
-  constructor(private session: SessionService, private router: Router) {}
+  constructor(private session: SessionService, protected router: Router) {}
 
   async canActivate(route: ActivatedRouteSnapshot): Promise<boolean> {
     const allowedRoles = route.data['roles'] as Role[];
@@ -15,7 +15,7 @@ export class RoleGuard implements CanActivate {
     const roleId = user?.role_id ?? Role.Guest; // fallback to guest (0)
 
     if (!allowedRoles.includes(roleId)) {
-      await this.router.navigate(['/unauthorized']);
+      await this.router.navigateByUrl('/unauthorized');
       return false;
     }
 

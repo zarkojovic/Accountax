@@ -1,0 +1,20 @@
+  <img src="https://images.pexels.com/photos/821754/pexels-photo-821754.jpeg" alt="Contact banner" class="rounded-lg h-36 shadow-md w-full object-cover" />
+<div class="max-w-xl mx-auto p-6 space-y-6 min-h-screen">
+  <h1 class="text-3xl font-bold">Contact Us</h1>
+
+
+  <p class="text-gray-600">
+    Have a question, feature request, or just want to say hi? Drop us a message and we’ll get back to you shortly.
+  </p>
+
+  <form (ngSubmit)="submit()" class="space-y-4">
+    <input [(ngModel)]="name" name="name" type="text" placeholder="Your Name" class="input input-bordered w-full" required />
+    <input [(ngModel)]="email" name="email" type="email" placeholder="Your Email" class="input input-bordered w-full" required />
+    <textarea [(ngModel)]="message" name="message" rows="5" placeholder="Your Message" class="textarea textarea-bordered w-full" required></textarea>
+
+    <button type="submit" class="btn btn-primary w-full">Send Message</button>
+  </form>
+
+  <div *ngIf="success" class="alert alert-success mt-4">Thanks! We'll get back to you soon.</div>
+  <div *ngIf="error" class="alert alert-error mt-4">{{ error }}</div>
+</div>

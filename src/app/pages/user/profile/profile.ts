@@ -45,7 +45,7 @@ export class Profile implements OnInit {
 
     if (avatarUrl) {
       const parts = avatarUrl.split('/');
-      const bucketIndex = parts.findIndex(p => p === 'accountax');
+      const bucketIndex = parts.findIndex((p: string) => p === 'accountax');
       this.previousImagePath = parts.slice(bucketIndex + 1).join('/');
     }
 
@@ -116,7 +116,7 @@ export class Profile implements OnInit {
 
       // Update previousImagePath for future deletes
       const parts = imageUrl.split('/');
-      const bucketIndex = parts.findIndex(p => p === 'accountax');
+      const bucketIndex = parts.findIndex((p: string) => p === 'accountax');
       this.previousImagePath = parts.slice(bucketIndex + 1).join('/');
     }
 

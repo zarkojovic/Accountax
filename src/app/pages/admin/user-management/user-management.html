@@ -1,1 +1,43 @@
-<p>user-management works!</p>
+<div *ngIf="loading" class="fixed inset-0 bg-black bg-opacity-40 z-50 flex justify-center items-center">
+  <span class="loading loading-spinner loading-lg text-white"></span>
+</div>
+
+<div class="p-4 space-y-4" *ngIf="!loading">
+  <h2 class="text-xl font-bold">User Management</h2>
+
+  <input type="text" [(ngModel)]="searchQuery" (input)="applyFilters()" placeholder="Search users..." class="input input-bordered w-full" />
+
+  <table class="table w-full">
+    <thead>
+    <tr>
+      <th>Avatar</th>
+      <th>Name</th>
+      <th>Company Name</th>
+      <th>Company ID</th>
+      <th>Email</th>
+      <th>Role</th>
+      <th>Actions</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let user of paginatedUsers">
+      <td><img [src]="user.avatar ?? '/avatar-icon.png'" class="w-10 h-10 rounded-full" /></td>
+      <td>{{ user.first_name }} {{ user.last_name }}</td>
+      <td>{{ user.company_name }}</td>
+      <td>{{ user.company_id }}</td>
+      <td>{{ user.email }}</td>
+      <td>{{ user.roles?.name }}</td>
+      <td class="space-x-2">
+        <button class="btn btn-xs btn-outline" [routerLink]="['/admin/users', user.id, 'edit']">Edit</button>
+        <button class="btn btn-xs btn-error" (click)="deleteUser(user.id)">Delete</button>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+
+  <div class="flex justify-center space-x-2 mt-4">
+    <button class="btn btn-sm" [disabled]="currentPage === 1" (click)="goToPage(currentPage - 1)">Prev</button>
+    <span>Page {{ currentPage }} of {{ totalPages }}</span>
+    <button class="btn btn-sm" [disabled]="currentPage === totalPages" (click)="goToPage(currentPage + 1)">Next</button>
+  </div>
+</div>

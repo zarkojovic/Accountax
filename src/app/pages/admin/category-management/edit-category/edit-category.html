@@ -1,0 +1,22 @@
+<div *ngIf="loading" class="fixed inset-0 bg-black bg-opacity-40 z-50 flex justify-center items-center">
+  <span class="loading loading-spinner loading-lg text-white"></span>
+</div>
+
+<div *ngIf="!loading" class="p-6 space-y-4 max-w-xl mx-auto">
+  <h2 class="text-xl font-bold">Edit Category</h2>
+
+  <form [formGroup]="form" class="space-y-4">
+    <label class="form-control w-full">
+      <span class="label-text mb-1">Category Name</span>
+      <input class="input input-bordered w-full" formControlName="name" placeholder="e.g. Consulting" />
+    </label>
+
+    <div class="flex space-x-2">
+      <button class="btn btn-primary" type="button" (click)="save()" [disabled]="saving">Save</button>
+      <button class="btn btn-outline" type="button" (click)="router.navigateByUrl('/admin/categories')">Cancel</button>
+    </div>
+
+    <div *ngIf="success" class="text-success">Category updated successfully!</div>
+    <div *ngIf="errorMessage" class="text-error">{{ errorMessage }}</div>
+  </form>
+</div>

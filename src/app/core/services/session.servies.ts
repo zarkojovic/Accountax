@@ -10,6 +10,7 @@ export interface SessionUser {
   role_id: number;
   first_name: string;
   last_name: string;
+  avatar : string;
 }
 
 @Injectable({ providedIn: 'root' })

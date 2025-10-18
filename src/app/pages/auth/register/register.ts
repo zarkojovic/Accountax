@@ -95,7 +95,7 @@ export class Register {
 
     this.loading = false;
     this.form.reset();
-    await this.router.navigate(['/auth/login']);
+    await this.router.navigateByUrl('/auth/login');
   }
 
 }

@@ -10,4 +10,5 @@ export interface SessionUser {
   role_id: Role;
   first_name: string;
   last_name: string;
+  avatar: string; // ✅ Add this
 }

@@ -8,11 +8,12 @@ export interface NavItem {
 }
 
 export const NAV_ITEMS: NavItem[] = [
-  {label: 'Home', path: '/', roles: [Role.Guest, Role.User]},
+  {label: 'Home', path: '/', roles: [Role.Guest, Role.User, Role.Admin]},
   {label: 'Dashboard', path: '/user/dashboard', roles: [Role.User]},
-  {label: 'Invoices', path: '/invoices', roles: [Role.User]},
-  {label: 'Profile', path: '/profile', roles: [Role.User]},
-  {label: 'Admin Panel', path: '/admin', roles: [Role.Admin]},
+  {label: 'About', path: '/about', roles: [Role.Guest, Role.User, Role.Admin]},
+  {label: 'Contact', path: '/contact', roles: [Role.Guest, Role.User, Role.Admin]},
+  {label: 'Author', path: '/author', roles: [Role.Guest, Role.User, Role.Admin]},
+  {label: 'Admin Panel', path: '/admin/dashboard', roles: [Role.Admin]},
   {label: 'Sign In', path: '/auth/login', roles: [Role.Guest], isAuth: true},
   {label: 'Register', path: '/auth/register', roles: [Role.Guest], isAuth: true},
 ];

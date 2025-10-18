@@ -14,7 +14,7 @@
     </div>
     <a class="btn btn-ghost text-xl text-amber-900">
       AccounTax
-      <img src="logo-accountax.png" alt="logo" class="h-10"/>
+      <img [src]="'logo-accountax.png'" alt="logo" class="h-10"/>
     </a>
   </div>
   <div class="navbar-center hidden lg:flex">
@@ -27,13 +27,13 @@
   <div class="navbar-end  dropdown-end">
     <div *ngIf="session.user$ | async as user; else guest" class="flex items-center">
       <div class="dropdown">
-        <img src="/avatar-icon.png" alt="Avatar" tabindex="0" role="button" class="w-8 h-8 border border-gray-400 rounded-full mr-3">
+
+        <img [src]="this.currentUser?.avatar ?? ''" alt="Avatar" tabindex="0" role="button" class="w-8 h-8 border border-gray-400 rounded-full mr-3">
         <ul tabindex="0" class="dropdown-content menu bg-base-100 rounded-box z-1 w-52 p-2 shadow-sm">
           <li><a>Profile</a></li>
           <li><a (click)="session.logout()">Logout</a></li>
         </ul>
       </div>
-<!--      <a class="btn" (click)="session.logout()">Logout</a>-->
     </div>
     <ng-template #guest>
       @for(item of visibleItems; track item.path){

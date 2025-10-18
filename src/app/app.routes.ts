@@ -9,10 +9,13 @@ import {Role} from '@core/interfaces/role.interfaces';
 export const routes: Routes = [
   {
     path: '',
-    pathMatch: 'full',
+    // pathMatch: 'full',
     component: GuestLayout,
     children: [
       {path: '', loadComponent: () => import('./pages/guest/home/home').then(m => m.Home)},
+      {path: 'about', loadComponent: () => import('./pages/guest/about/about').then(m => m.About)},
+      {path: 'contact', loadComponent: () => import('./pages/guest/contact/contact').then(m => m.Contact)},
+      {path: 'author', loadComponent: () => import('./pages/guest/author/author').then(m => m.Author)}
     ]
   },
   {
@@ -45,12 +48,32 @@ export const routes: Routes = [
     data: { roles: [Role.Admin] },
     children: [
       {
-        path: '',
+        path: 'dashboard',
         loadComponent: () => import('./pages/admin/admin-dashboard/admin-dashboard').then(m => m.AdminDashboard)
       },
       {
         path: 'users',
         loadComponent: () => import('./pages/admin/user-management/user-management').then(m => m.UserManagement)
+      },
+      {
+        path: 'invoices',
+        loadComponent: () => import('./pages/admin/invoice-management/invoice-management').then(m => m.InvoiceManagement)
+      },
+      {
+        path: 'categories',
+        loadComponent: () => import('./pages/admin/category-management/category-management').then(m => m.CategoryManagement)
+      },
+      {
+        path: 'users/:id/edit',
+        loadComponent: () => import('./pages/admin/user-management/edit-user/edit-user').then(m => m.EditUser)
+      },
+      {
+        path: 'invoices/:id/edit',
+        loadComponent: () => import('./pages/admin/invoice-management/edit-invoice/edit-invoice').then(m => m.EditInvoice)
+      },
+      {
+        path: 'categories/:id/edit',
+        loadComponent: () => import('./pages/admin/category-management/edit-category/edit-category').then(m => m.EditCategory)
       }
     ]
   },

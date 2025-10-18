@@ -53,6 +53,6 @@ export class Login {
     }
     this.loading = false;
     this.form.reset();
-    await this.router.navigate(['/']); // or redirect based on role
+    await this.router.navigateByUrl('/'); // or redirect based on role
   }
 }

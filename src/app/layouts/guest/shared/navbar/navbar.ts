@@ -19,6 +19,7 @@ export class Navbar {
 
   ngOnInit(): void {
     this.currentUser = this.session.currentUser;
+    console.log('Current User in Navbar:', this.currentUser);
   }
 
   get visibleItems(): NavItem[] {

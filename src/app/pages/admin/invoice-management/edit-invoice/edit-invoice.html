@@ -1,0 +1,51 @@
+<div *ngIf="loading" class="fixed inset-0 bg-black bg-opacity-40 z-50 flex justify-center items-center">
+  <span class="loading loading-spinner loading-lg text-white"></span>
+</div>
+
+<div *ngIf="!loading" class="p-6 space-y-4 max-w-xl mx-auto">
+  <h2 class="text-xl font-bold">Edit Invoice</h2>
+
+  <form [formGroup]="form" class="space-y-4">
+    <label class="form-control w-full">
+      <span class="label-text mb-1">Amount</span>
+      <input type="number" class="input input-bordered w-full" formControlName="amount" />
+    </label>
+
+    <label class="form-control w-full">
+      <span class="label-text mb-1">Direction</span>
+      <select class="select select-bordered w-full" formControlName="is_incoming">
+        <option [value]="true">Incoming</option>
+        <option [value]="false">Outgoing</option>
+      </select>
+    </label>
+
+    <label class="form-control w-full">
+      <span class="label-text mb-1">Client Name</span>
+      <input class="input input-bordered w-full" formControlName="client_name" />
+    </label>
+
+    <label class="form-control w-full">
+      <span class="label-text mb-1">Comment</span>
+      <textarea class="textarea textarea-bordered w-full" formControlName="comment"></textarea>
+    </label>
+
+    <label class="form-control w-full">
+      <span class="label-text mb-1">Category</span>
+      <select class="select select-bordered w-full" formControlName="category_id">
+        <option *ngFor="let cat of categories" [value]="cat.id">{{ cat.name }}</option>
+      </select>
+    </label>
+
+    <label class="form-control w-full">
+      <span class="label-text mb-1">User</span>
+      <select class="select select-bordered w-full" formControlName="user_id">
+        <option *ngFor="let user of users" [value]="user.id">{{ user.first_name }} {{ user.last_name }}</option>
+      </select>
+    </label>
+
+    <div class="flex space-x-2">
+      <button class="btn btn-primary" type="button" (click)="save()" [disabled]="saving">Save</button>
+      <button class="btn btn-outline" type="button" (click)="router.navigateByUrl('/admin/invoices')">Cancel</button>
+    </div>
+  </form>
+</div>

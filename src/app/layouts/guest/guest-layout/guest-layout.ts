@@ -11,6 +11,7 @@ import { RouterModule} from '@angular/router';
     RouterModule
   ],
   templateUrl: './guest-layout.html',
+  standalone: true,
   styleUrl: './guest-layout.css'
 })
 export class GuestLayout {

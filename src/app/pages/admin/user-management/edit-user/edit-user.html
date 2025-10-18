@@ -1,0 +1,47 @@
+<div *ngIf="loading" class="fixed inset-0 bg-black bg-opacity-40 z-50 flex justify-center items-center">
+  <span class="loading loading-spinner loading-lg text-white"></span>
+</div>
+
+<div *ngIf="!loading" class="p-6 space-y-4 max-w-xl mx-auto">
+  <h2 class="text-xl font-bold">Edit User</h2>
+
+  <form [formGroup]="form" class="space-y-4">
+    <label class="form-control w-full">
+      <span class="label-text mb-1 block">Avatar</span>
+      <input type="file" (change)="handleFileSelection($event)" accept="image/*" />
+    </label>
+    <img *ngIf="imageUrl" [src]="imageUrl" class="w-20 h-20 rounded-full" />
+
+    <label class="form-control w-full">
+      <span class="label-text mb-1">First Name</span>
+      <input class="input input-bordered w-full" formControlName="first_name" placeholder="First Name" />
+    </label>
+
+    <label class="form-control w-full mt-3">
+      <span class="label-text mb-1">Last Name</span>
+      <input class="input input-bordered w-full" formControlName="last_name" placeholder="Last Name" />
+    </label>
+
+    <label class="form-control w-full mt-3">
+      <span class="label-text mb-1">Email</span>
+      <input class="input input-bordered w-full" formControlName="email" placeholder="Email" />
+    </label>
+
+    <label class="form-control w-full mt-3">
+      <span class="label-text mb-1">Company Name</span>
+      <input class="input input-bordered w-full" formControlName="company_name" placeholder="Company Name" />
+    </label>
+
+    <label class="form-control w-full mt-3">
+      <span class="label-text mb-1">Role</span>
+      <select class="select select-bordered w-full" formControlName="role_id">
+        <option *ngFor="let role of roles" [value]="role.id">{{ role.name }}</option>
+      </select>
+    </label>
+
+    <div class="flex space-x-2 mt-3">
+      <button class="btn btn-primary" type="button" (click)="save()" [disabled]="saving">Save</button>
+      <button class="btn btn-outline" type="button" (click)="router.navigateByUrl('/admin/users')">Cancel</button>
+    </div>
+  </form>
+</div>
